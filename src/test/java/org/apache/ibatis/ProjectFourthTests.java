@@ -15,35 +15,58 @@
  */
 package org.apache.ibatis;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.apache.ibatis.binding.BindingException;
-import org.apache.ibatis.binding.MapperMethod;
+import org.apache.ibatis.session.RowBounds;
 import org.junit.jupiter.api.Test;
 
-class ProjectFourthTests {
+public class ProjectFourthTests {
 
+  // Boundary values for the offset
+  private static final int MIN_OFFSET = 0;
+  private static final int MAX_OFFSET = Integer.MAX_VALUE;
+
+  // Boundary values for the limit
+  private static final int MIN_LIMIT = 0;
+  private static final int MAX_LIMIT = Integer.MAX_VALUE;
+
+  // Test case 1: Test with the minimum offset and minimum limit
   @Test
-  void paramMap_GetExistingKey_ReturnsValue() {
-    // Arrange
-    MapperMethod.ParamMap<String> paramMap = new MapperMethod.ParamMap<>();
-    paramMap.put("username", "random");
-
-    // Act
-    String result = paramMap.get("username");
-
-    // Assert
-    assertEquals("random", result);
+  public void testRowBoundsWithMinOffsetAndMinLimit() {
+    RowBounds rowBounds = new RowBounds(MIN_OFFSET, MIN_LIMIT);
+    assertEquals(MIN_OFFSET, rowBounds.getOffset());
+    assertEquals(MIN_LIMIT, rowBounds.getLimit());
   }
 
+  // Test case 2: Test with the maximum offset and minimum limit
   @Test
-  void paramMap_GetMissingKey_ThrowsBindingException() {
-    // Arrange
-    MapperMethod.ParamMap<String> paramMap = new MapperMethod.ParamMap<>();
-
-    // Act & Assert
-    assertThrows(BindingException.class, () -> paramMap.get("password"));
+  public void testRowBoundsWithMaxOffsetAndMinLimit() {
+    RowBounds rowBounds = new RowBounds(MAX_OFFSET, MIN_LIMIT);
+    assertEquals(MAX_OFFSET, rowBounds.getOffset());
+    assertEquals(MIN_LIMIT, rowBounds.getLimit());
   }
 
+  // Test case 3: Test with the minimum offset and maximum limit
+  @Test
+  public void testRowBoundsWithMinOffsetAndMaxLimit() {
+    RowBounds rowBounds = new RowBounds(MIN_OFFSET, MAX_LIMIT);
+    assertEquals(MIN_OFFSET, rowBounds.getOffset());
+    assertEquals(MAX_LIMIT, rowBounds.getLimit());
+  }
+
+  // Test case 4: Test with the maximum offset and maximum limit
+  @Test
+  public void testRowBoundsWithMaxOffsetAndMaxLimit() {
+    RowBounds rowBounds = new RowBounds(MAX_OFFSET, MAX_LIMIT);
+    assertEquals(MAX_OFFSET, rowBounds.getOffset());
+    assertEquals(MAX_LIMIT, rowBounds.getLimit());
+  }
+
+  // Test case 5: Test with default RowBounds (offset = 0, limit = Integer.MAX_VALUE)
+  @Test
+  public void testRowBoundsWithDefault() {
+    RowBounds rowBounds = RowBounds.DEFAULT;
+    assertEquals(RowBounds.NO_ROW_OFFSET, rowBounds.getOffset());
+    assertEquals(RowBounds.NO_ROW_LIMIT, rowBounds.getLimit());
+  }
 }
