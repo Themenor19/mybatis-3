@@ -15,22 +15,25 @@
  */
 package org.apache.ibatis;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.ibatis.io.Resources;
 import org.junit.jupiter.api.Test;
 
-public class ProjectSecondTests {
+public class ProjectThirdTests {
 
   @Test
-  public void testClassForName_ExistingClass() throws ClassNotFoundException {
-    Class<?> clazz = Resources.classForName("java.lang.String");
-    assertEquals(String.class, clazz);
+  public void testGetUrlAsStream_ValidUrl() throws IOException {
+    InputStream stream = Resources.getUrlAsStream("https://www.example.com/");
+    assertNotNull(stream);
   }
 
   @Test
-  public void testClassForName_NonExistingClass() {
-    assertThrows(ClassNotFoundException.class, () -> Resources.classForName("com.example.DoesNotExist"));
+  public void testGetUrlAsStream_InvalidUrl() {
+    assertThrows(IOException.class, () -> Resources.getUrlAsStream("http://invalid.example.com/nope"));
   }
 }
