@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.ibatis.io.Resources;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ public class ProjectFirstTests {
 
   @Test
   public void testSetAndGetCharset_UTF8() {
-    Charset utf8 = Charset.forName("UTF-8");
+    Charset utf8 = StandardCharsets.UTF_8;
     Resources.setCharset(utf8);
     assertEquals(utf8, Resources.getCharset());
   }
