@@ -16,26 +16,21 @@
 package org.apache.ibatis;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.apache.ibatis.io.Resources;
 import org.junit.jupiter.api.Test;
 
-public class ProjectFirstTests {
+public class ProjectSecondTests {
 
   @Test
-  public void testSetAndGetCharset_Null() {
-    Resources.setCharset(null);
-    assertNull(Resources.getCharset());
+  public void testClassForName_ExistingClass() throws ClassNotFoundException {
+    Class<?> clazz = Resources.classForName("java.lang.String");
+    assertEquals(String.class, clazz);
   }
 
   @Test
-  public void testSetAndGetCharset_UTF8() {
-    Charset utf8 = StandardCharsets.UTF_8;
-    Resources.setCharset(utf8);
-    assertEquals(utf8, Resources.getCharset());
+  public void testClassForName_NonExistingClass() {
+    assertThrows(ClassNotFoundException.class, () -> Resources.classForName("com.example.DoesNotExist"));
   }
 }

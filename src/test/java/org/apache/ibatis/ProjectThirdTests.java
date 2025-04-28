@@ -15,27 +15,25 @@
  */
 package org.apache.ibatis;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.ibatis.io.Resources;
 import org.junit.jupiter.api.Test;
 
-public class ProjectFirstTests {
+public class ProjectThirdTests {
 
   @Test
-  public void testSetAndGetCharset_Null() {
-    Resources.setCharset(null);
-    assertNull(Resources.getCharset());
+  public void testGetUrlAsStream_ValidUrl() throws IOException {
+    InputStream stream = Resources.getUrlAsStream("https://www.example.com/");
+    assertNotNull(stream);
   }
 
   @Test
-  public void testSetAndGetCharset_UTF8() {
-    Charset utf8 = StandardCharsets.UTF_8;
-    Resources.setCharset(utf8);
-    assertEquals(utf8, Resources.getCharset());
+  public void testGetUrlAsStream_InvalidUrl() {
+    assertThrows(IOException.class, () -> Resources.getUrlAsStream("http://invalid.example.com/nope"));
   }
 }
