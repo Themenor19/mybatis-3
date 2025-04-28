@@ -15,7 +15,7 @@
  */
 package org.apache.ibatis;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.ibatis.session.RowBounds;
 import org.junit.jupiter.api.Test;
